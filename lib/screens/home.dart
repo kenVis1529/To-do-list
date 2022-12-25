@@ -28,12 +28,49 @@ class _HomeState extends State<Home> {
         elevation: 0.0,
       ),
       body: Container(
-        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 20.0),
-
-        /// TODO: Tạo một thanh điền chữ để thêm task, thêm nút xóa task, và thêm chức năng có thể khôi phục task
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         child: Column(
           children: [
+            ///
+            /// Adding task bar
+            ///
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.all(0.0),
+                          border: InputBorder
+                              .none, // Loại bỏ thanh ngang của TextField
+                          hintText: "Add a task",
+                          hintStyle: TextStyle(color: Colors.grey)),
+                    ),
+                  ),
+                  ElevatedButton(onPressed: () {}, child: const Icon(Icons.add))
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 20.0,
+            ),
+
+            ///
+            /// To-do list heading
+            ///
+
+            ///
+            /// Tasks list
+            ///
             ListView.builder(
+              scrollDirection: Axis.vertical,
+              shrinkWrap:
+                  true, // Sửa lỗi "Vertical viewport was given unbounded height"
               itemCount: tasks.length,
               itemBuilder: ((context, index) {
                 return Padding(

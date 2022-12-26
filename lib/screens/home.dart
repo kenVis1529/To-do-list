@@ -13,7 +13,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   Tasks tasks = Tasks();
-  Task newTask = Task(title: "", isDone: false);
+  String newTask = "";
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,9 @@ class _HomeState extends State<Home> {
                   Expanded(
                     child: TextFormField(
                       onChanged: (content) {
-                        newTask.title = content;
+                        setState(() {
+                          newTask = content;
+                        });
                       },
                       decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
@@ -55,11 +57,12 @@ class _HomeState extends State<Home> {
                   ),
                   ElevatedButton(
                       onPressed: () {
-                        /// Sau khi add task mới vào rồi thì biến newTask được renew
-                        setState(() {
-                          tasks.add(newTask);
-                          newTask = Task(title: "", isDone: false);
-                        });
+                        /// Nếu task khác rỗng thì có thể thêm task
+                        if (newTask != "") {
+                          setState(() {
+                            tasks.add(Task(title: newTask, isDone: false));
+                          });
+                        }
                       },
                       child: const Icon(Icons.add))
                 ],

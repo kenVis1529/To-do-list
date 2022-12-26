@@ -5,8 +5,8 @@ Chức năng
     [] Edit
 Bug
 - Thanh thêm task
-    [] Type content rồi nhấn thêm task liên tục
-    [] Content rỗng vẫn cho thêm task
+    [x] Type content rồi nhấn thêm task liên tục
+    [x] Content rỗng vẫn cho thêm task
 
 
 

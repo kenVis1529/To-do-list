@@ -2,11 +2,7 @@ Chức năng
     [x] Checkbox
     [x] Xóa
     [x] Thêm
-    [] Edit
-Bug
-- Thanh thêm task
-    [x] Type content rồi nhấn thêm task liên tục
-    [x] Content rỗng vẫn cho thêm task
+    [x] Edit
 
 
 

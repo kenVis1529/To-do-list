@@ -15,12 +15,17 @@ class _HomeState extends State<Home> {
   Tasks tasks = Tasks();
   String newTask = "";
 
+  // Biến xác định task cần edit
+  bool edit = false;
+  String editContent = "";
+  int editIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[200],
       appBar: AppBar(
-        title: const Text("To-do list"),
+        title: const Text("To-do App"),
         centerTitle: true,
         backgroundColor: Colors.blue[600],
         elevation: 0.0,
@@ -60,7 +65,10 @@ class _HomeState extends State<Home> {
                         /// Nếu task khác rỗng thì có thể thêm task
                         if (newTask != "") {
                           setState(() {
-                            tasks.add(Task(title: newTask, isDone: false));
+                            tasks.add(Task(
+                                id: "${tasks.taskList.length + 1}",
+                                title: newTask,
+                                isDone: false));
                           });
                         }
                       },
@@ -79,6 +87,38 @@ class _HomeState extends State<Home> {
               "To-do List",
               style: TextStyle(fontSize: 30.0),
             ),
+
+            ///
+            /// Edit TextField
+            ///
+            /// Bấm nút Edit
+            /// => edit = true thì hiện TextField
+            /// Bấm nút Check
+            /// => edit = false thì ẩn TextField
+            edit
+                ? Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          onChanged: (value) {
+                            editContent = value;
+                          },
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              edit = false;
+                              tasks.edit(
+                                  tasks.taskList[editIndex], editContent);
+                            });
+                          },
+                          icon: const Icon(Icons.check))
+                    ],
+                  )
+                : const SizedBox(
+                    height: 0,
+                  ),
 
             ///
             /// Tasks list
@@ -111,7 +151,14 @@ class _HomeState extends State<Home> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    setState(() {
+                                      edit = true;
+                                      editIndex = index;
+                                    });
+                                  });
+                                },
                                 icon: const Icon(Icons.edit),
                               ),
                               IconButton(

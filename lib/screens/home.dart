@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:to_do_list/models/task.dart';
+import 'package:to_do_list/models/tasks.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,13 +12,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Task> tasks = [
-    Task(title: "Homework", isDone: false),
-    Task(title: "Walk with dog", isDone: false),
-    Task(title: "Write some code", isDone: false),
-    Task(title: "Have lunch", isDone: false),
-    Task(title: "Deadline with GSC", isDone: false),
-  ];
+  Tasks tasks = Tasks();
+  Task newTask = Task(title: "", isDone: false);
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +42,9 @@ class _HomeState extends State<Home> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      onChanged: (content) {
+                        newTask.title = content;
+                      },
                       decoration: const InputDecoration(
                           contentPadding: EdgeInsets.all(0.0),
                           border: InputBorder
@@ -52,7 +53,15 @@ class _HomeState extends State<Home> {
                           hintStyle: TextStyle(color: Colors.grey)),
                     ),
                   ),
-                  ElevatedButton(onPressed: () {}, child: const Icon(Icons.add))
+                  ElevatedButton(
+                      onPressed: () {
+                        /// Sau khi add task mới vào rồi thì biến newTask được renew
+                        setState(() {
+                          tasks.add(newTask);
+                          newTask = Task(title: "", isDone: false);
+                        });
+                      },
+                      child: const Icon(Icons.add))
                 ],
               ),
             ),
@@ -63,6 +72,10 @@ class _HomeState extends State<Home> {
             ///
             /// To-do list heading
             ///
+            const Text(
+              "To-do List",
+              style: TextStyle(fontSize: 30.0),
+            ),
 
             ///
             /// Tasks list
@@ -71,25 +84,43 @@ class _HomeState extends State<Home> {
               scrollDirection: Axis.vertical,
               shrinkWrap:
                   true, // Sửa lỗi "Vertical viewport was given unbounded height"
-              itemCount: tasks.length,
+              itemCount: tasks.taskList.length,
               itemBuilder: ((context, index) {
                 return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        CheckboxListTile(
-                          title: Text(tasks[index].title),
-                          value: tasks[index].isDone,
-                          onChanged: (value) async {
-                            setState(() {
-                              tasks[index].isDone = !tasks[index].isDone;
-                              // if (tasks[index].isDone) {
-                              //   tasks.remove(tasks[index]);
-                              // }
-                            });
-                          },
-                          checkColor: Colors.white,
-                          activeColor: Colors.green,
+                        ListTile(
+                          leading: Checkbox(
+                            value: tasks.taskList[index].isDone,
+                            onChanged: (value) {
+                              setState(() {
+                                tasks.taskList[index].isDone =
+                                    !tasks.taskList[index].isDone;
+                              });
+                              log(tasks.taskList[index].isDone.toString());
+                            },
+                            activeColor: Colors.green,
+                            checkColor: Colors.white,
+                          ),
+                          title: Text(tasks.taskList[index].title),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.edit),
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  setState(() {
+                                    tasks.delete(tasks.taskList[index]);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ));

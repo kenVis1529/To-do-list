@@ -1,9 +1,12 @@
-Danh sách task
-    - Thay CheckboxListTile thành ListTile
-    - Thêm thủ công:
-        [] Checkbox
-        [] Nút xóa
-        [] Nút sửa
+Chức năng
+    [x] Checkbox
+    [x] Xóa
+    [x] Thêm
+    [] Edit
+Bug
+- Thanh thêm task
+    [] Type content rồi nhấn thêm task liên tục
+    [] Content rỗng vẫn cho thêm task
 
 
 
@@ -31,6 +34,10 @@ Thiết kế UI
             => Bọc các TextField bằng Expanded widget
     - Danh sách task
         + Checkbox
-        + Nút Xóa
+        + Nút xóa
         + Nút sửa
+Chức năng
+    - Checkbox
+    - Nút xóa
+    - Nút edit
 Lưu trữ dữ liệu
